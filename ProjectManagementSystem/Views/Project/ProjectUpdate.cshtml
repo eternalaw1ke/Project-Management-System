@@ -1,0 +1,87 @@
+﻿@model ProjectManagementSystem.Models.Project
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <form asp-action="ProjectUpdate" asp-controller="Project" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input asp-for="Id" hidden="hidden" />
+                <div class="form-group">
+                    <label asp-for="Name">Название</label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" style="color: red;"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description">Описание проекта</label>
+                    <textarea asp-for="Description" class="form-control" style="height: 150px;"></textarea>
+                    <span asp-validation-for="Description" style="color: red;"></span>
+                </div>
+                <div>
+                    <label>Текущие участники проекта</label>
+                    <div class="border rounded">
+                        @{
+                            foreach (var item in ViewBag.CurrentTeam)
+                            {
+                                <div class="d-flex align-items-center" style="padding:5px;">
+                                    <div class="me-3" style="padding-left:7px;">@item.Name</div>
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Создать новый список участников</label>
+                    <select class="teamList form-control" name="teamList" multiple="multiple" asp-items="@ViewBag.Team" style="width: 100%;">
+                    </select>
+                    <span style="color: red;"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="GitUrl">Репозиторий GitHub</label>
+                    <input asp-for="GitUrl" class="form-control" />
+                    <span asp-validation-for="GitUrl" style="color: red;"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DateEnd">Дата завершения проекта</label>
+                    <input type="date" asp-for="DateEnd" class="form-control" />
+                    <span asp-validation-for="DateEnd" style="color: red;"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Attestation">Аттестация КИИ</label>
+                    <select asp-for="Attestation" class="form-control" asp-items="@ViewBag.KII"></select>
+                    <span asp-validation-for="Attestation" style="color: red;"></span>
+                </div>
+
+                @{
+                    var role = User.Claims.FirstOrDefault(x => x.Value == "Администратор");
+                    if (role != null)
+                    {
+                        <div class="form-group">
+                            <label asp-for="Status">Аттестация КИИ</label>
+                            <select asp-for="Status" class="form-control" asp-items="@ViewBag.Status"></select>
+                            <span asp-validation-for="Status" style="color: red;"></span>
+                        </div>
+                    }
+                }
+                <br />
+                <div class="display: flex; justify-content: center; text-center">
+                    <button type="submit" class="btn btn-success">Изменить</button>
+                    <a asp-controller="Project" asp-action="Index" class="btn btn-outline-dark mr-2">Назад к списку</a>
+                </div>
+                <br />
+                <br />
+            </form>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.teamList').select2();
+        });
+    </script>
+}

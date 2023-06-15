@@ -1,0 +1,91 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Project Flow</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+
+    <style>
+        body {
+            background-image: url("/images/bg_photo.jpg");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-attachment: fixed;
+        }
+
+        
+        @@media only screen and (max-width: 767px) {
+            body {
+                background-image: none;
+            }
+        }
+
+        @@media only screen and (max-width: 1400px) {
+            body {
+                background-image: url("/images/bg_photo_1400.jpg");
+                background-size: cover;
+                background-repeat: no-repeat;
+                background-position: center center;
+                background-attachment: fixed;
+            }
+        }
+
+        @@media only screen and (max-width: 1300px) {
+            body {
+                background-image: url("/images/bg_photo_1300.jpg");
+                background-size: cover;
+                background-repeat: no-repeat;
+                background-position: center center;
+                background-attachment: fixed;
+            }
+        }
+
+        @@media only screen and (max-width: 1320px) {
+            body {
+                background-image: url("/images/bg_photo_1318.jpg");
+                background-size: cover;
+                background-repeat: no-repeat;
+                background-position: center center;
+                background-attachment: fixed;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark back-color border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <img src="~/images/logo.png" alt="Logo" height="45">
+                <a class="navbar-brand text-light mr-md-6" asp-area="" asp-controller="ProjectTasks" asp-action="Index">Project Flow</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav flex-grow-1">
+                    </ul>
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="Login">Войти</a>
+                        </li>
+                        <li class="nav nav-pills">
+                            <a class="nav-link text-light" asp-area="" asp-controller="Account" asp-action="Register">Регистрация</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <main role="main" class="w-100 pl-md-3 pr-md-3">
+        @RenderBody()
+    </main>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

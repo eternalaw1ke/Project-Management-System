@@ -1,0 +1,39 @@
+﻿@model ProjectManagementSystem.ViewModels.Admin.HomeViewModel
+
+
+<div class="row w-100 m-0">
+    <div class="table-responsive">
+        <h1 class="display-6 text-center">Список пользователей</h1>
+        <table class="table table-striped border">
+            <thead>
+                <tr>
+                    <th scope="col">
+                        <a>Имя</a>
+                    </th>
+                    <th scope="col">
+                        <a>E-mail</a>
+                    </th>
+                    <th scope="col">
+                        <a>Роль</a>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in Model.Users)
+                {
+                    <tr>
+                        <td>@user.Name</td>
+                        <td>@user.EmailAddress</td>
+                        <td>@user.Role.Name</td>
+                        <td>
+                            <form method="get" asp-controller="Admin" asp-action="UpdateUser">
+                                <input type="hidden" name="userId" value="@user.Id">
+                                <button class="btn btn-outline-dark" type="submit">Изменить</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

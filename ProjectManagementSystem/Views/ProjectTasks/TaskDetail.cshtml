@@ -1,0 +1,92 @@
+﻿@model ProjectManagementSystem.Models.Tasks
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="Name">Название</label>
+                <input asp-for="Name" class="form-control" disabled="disabled" />
+                <span asp-validation-for="Name"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Priorety">Приоритет</label>
+                <select asp-for="Priorety" class="form-control" disabled="disabled" asp-items="@ViewBag.Priorety"></select>
+                <span asp-validation-for="Priorety"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description">Техническое задание</label>
+                <textarea asp-for="Description" class="form-control" disabled="disabled"></textarea>
+                <span asp-validation-for="Description"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserId">Исполнитель</label>
+                <select asp-for="UserId" class="form-control" disabled="disabled" asp-items="@ViewBag.Users"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProjectId">Проект</label>
+                <select asp-for="ProjectId" class="form-control" disabled="disabled" asp-items="@ViewBag.Projects"></select>
+                <span asp-validation-for="ProjectId" style="color: red;"></span>
+            </div>
+
+            @{
+                var role = User.Claims.FirstOrDefault(x => x.Value == "Администратор");
+                if (role != null)
+                {
+                    <div style="display: flex; justify-content: center;">
+
+
+                        @if (Model != null)
+                        {
+                            <form style="margin: 5px;" method="post" action="@Url.Action("TaskDelete", "ProjectTasks", new { taskId = Model.Id })">
+                                <button type="submit" class="btn btn-success">Выполнено</button>
+                            </form>
+                            <form style="margin: 5px;" method="post" action="@Url.Action("TaskDelete", "ProjectTasks", new { taskId = Model.Id })">
+                                <button type="submit" class="btn btn-danger">Удалить</button>
+                            </form>
+
+                        }
+                    </div>
+                }
+            }
+
+            @{
+                var userRole = User.Claims.FirstOrDefault(x => x.Value == "Пользователь");
+
+                if (userRole != null)
+                {
+                    <div style="display: flex; justify-content: center;">
+
+
+                        @if (Model != null)
+                        {
+                            <form style="margin: 5px;" method="post" action="@Url.Action("TaskDelete", "ProjectTasks", new { taskId = Model.Id })">
+                                <button type="submit" class="btn btn-success">Выполнено</button>
+                            </form>
+                            <form style="margin: 5px;" asp-controller="ProjectTasks" asp-action="Index" method="post">
+                                <input type="submit" value="Назад к списку" class="btn btn-outline-dark mr-2" />
+                            </form>
+
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div style="display: flex; justify-content: center;">
+                        @if (Model != null)
+                        {
+                            <form style="margin: 5px;" asp-controller="ProjectTasks" asp-action="TaskUpdate" method="get">
+                                <input type="submit" value="Изменить" class="btn btn-outline-dark mr-2" />
+                            </form>
+                        }
+                        <form style="margin: 5px;" asp-controller="ProjectTasks" asp-action="Index" method="post">
+                            <input type="submit" value="Назад к списку" class="btn btn-outline-dark mr-2" />
+                        </form>
+                    </div>
+                }
+            }
+
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+</div>

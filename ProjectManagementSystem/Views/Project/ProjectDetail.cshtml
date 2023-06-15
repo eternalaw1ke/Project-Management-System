@@ -1,0 +1,134 @@
+﻿@model ProjectManagementSystem.Models.Project
+
+
+<div class="col-lg-8 mx-auto p-4 py-md-5">
+    <header class="d-flex align-items-center pb-3 mb-5 border-bottom">
+        <h1>@Model.Name</h1>
+    </header>
+
+    <main>
+        <div class="row g-3 border border-dark rounded" style="word-wrap: break-word;">
+            <h2 class="text-body">Описание проекта</h2>
+            <p class="fs-5">@Model.Description</p>
+        </div>
+
+        <hr class="col-3 col-md-2 mb-5">
+
+        <div class="row g-3">
+            <div class="col-md-6 border border-dark rounded">
+                <h2 class="text-body-emphasis">Репозиторий на GitHub</h2>
+                <h5><a href="@Model.GitUrl" style="word-wrap: break-word;">@Model.GitUrl</a></h5>
+            </div>
+
+            <div class="col-md-2"></div>
+
+            <div class="col-md-4 border border-dark rounded float-right">
+                <h2 class="text-body-emphasis">Аттестация КИИ</h2>
+                @if (@Model.Status == 0)
+                {
+                    <div>
+                        <span><strong>Статус:</strong> Нет аттестации</span>
+                        <span style="display: inline-block; width: 20px; height: 20px; border-radius: 50%; vertical-align:bottom; background-color: #fa5050;"></span>
+                        <br />
+                        <br />
+                        Для более подробной информации обратитесь к нам на почту<br />
+                        <strong>support@productflow.com</strong>
+                    </div>
+                }
+                @if (@Model.Status == 1)
+                {
+                    <div>
+                        <span><strong>Статус:</strong> Ожидание</span>
+                        <span style="display: inline-block; width: 20px; height: 20px; border-radius: 50%; vertical-align:bottom; background-color: #8f8f8f"></span>
+                        <br />
+                        <br />
+                        Для более подробной информации обратитесь к нам на почту<br />
+                        <strong>support@productflow.com</strong>
+                    </div>
+                }
+                @if (@Model.Status == 2)
+                {
+                    <div>
+                        <span><strong>Статус:</strong> Отправлено</span>
+                        <span style="display: inline-block; width: 20px; height: 20px; border-radius: 50%; vertical-align:bottom; background-color: #5485e8;"></span>
+                        <br />
+                        <br />
+                        Для более подробной информации обратитесь к нам на почту<br />
+                        <strong>support@productflow.com</strong>
+                    </div>
+                }
+                @if (@Model.Status == 3)
+                {
+                    <div>
+                        <span><strong>Статус:</strong> В обработке</span>
+                        <span style="display: inline-block; width: 20px; height: 20px; border-radius: 50%; vertical-align:bottom; background-color: #fad850"></span>
+                        <br />
+                        <br />
+                        Для более подробной информации обратитесь к нам на почту<br />
+                        <strong>support@productflow.com</strong>
+                    </div>
+                }
+                @if (@Model.Status == 4)
+                {
+                    <div>
+                        <span><strong>Статус:</strong> Пройдено</span>
+                        <span style="display: inline-block; width: 20px; height: 20px; border-radius: 50%; vertical-align:bottom; background-color: #50fa7d;"></span>
+                        <br />
+                        <br />
+                        Для более подробной информации обратитесь к нам на почту<br />
+                        <strong>support@productflow.com</strong>
+                    </div>
+                }
+            </div>
+
+            <div class="col-md-6 border border-dark rounded">
+                <h2 class="text-body-emphasis">Состав команды</h2>
+                <h5>Владелец проекта</h5>
+                <div class="row">
+                    <div class="col-sm">@Model.ProjectOwnerName</div>
+                    <div class="col-sm">@ViewBag.OwnerEmail</div>
+                </div>
+                @if (ViewBag.ProjectTeam != null)
+                {
+                    <h5>Разработчики</h5>
+                    @foreach (var item in ViewBag.ProjectTeam)
+                    {
+                        <div class="row">
+                            <div class="col-sm">@item.Name</div>
+                            <div class="col-sm">@item.EmailAddress</div>
+                        </div>
+                        <hr>
+                    }
+                }
+            </div>
+
+            @{
+                var role = User.Claims.FirstOrDefault(x => x.Value == "Администратор");
+
+                if (role != null || ViewBag.CurrentUserId == Model.ProjectOwnerId)
+                {
+                    <div style="display: flex; justify-content: left;">
+                        <form style="margin-right: 5px;" asp-controller="Project" asp-action="ProjectUpdate" method="get">
+                            <input type="submit" value="Изменить" class="btn btn-dark btn-sm px-15" />
+                        </form>
+
+                        <form style="margin-left: 5px;" asp-controller="Project" asp-action="ProjectDelete" method="post">
+                            <input asp-for="Id" hidden="hidden" />
+                            <input type="submit" value="Удалить" class="btn btn-danger btn-sm px-15" />
+                        </form>
+                        <form style="margin-left: 10px;" asp-controller="Project" asp-action="Index" method="post">
+                            <input type="submit" value="Назад к списку" class="btn btn-outline-dark btn-sm px-15" />
+                        </form>
+                    </div>
+                }
+
+            }
+        </div>
+    </main>
+    <footer class="pt-5 my-5 text-body-secondary border-top">
+        Наши контакты:<br />
+        <strong>support@productflow.com</strong>
+    </footer>
+</div>
+
+
